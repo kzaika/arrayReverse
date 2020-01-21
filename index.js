@@ -1,6 +1,6 @@
-const fs = require('fs');
+const fs = require('fs'); // импортируем встроенный модуль NodeJS для работы с файловой системой
 
-let arr = [
+let arr = [ // инициализируем двухмерный массив
     [0,10,0,10,0,10,0,10,0,10],
     [0,20,0,20,0,20,0,20,0,20],
     [0,30,0,30,0,30,0,30,0,30],
@@ -16,7 +16,15 @@ let arr = [
 const stream = fs.createWriteStream('arr.txt');
 
 stream.once('open', () => {
-    arr.forEach(subArr => stream.write(JSON.stringify([...subArr].reverse()) + '\n'))
+    arr.forEach((subArr) => { // проходим по каждому элементу массива
+
+        stream.write( // 4. записываем полученную строчку в файл
+            JSON.stringify( // 2. переводим массив в строку для записи в файл
+                [...subArr].reverse() // 1. создаем копию текущего массива (чтобы не мутировать данные в arr) и реверсируем его
+            ) + '\n' // 3. добавляем перенос строки
+        )
+
+    })
     stream.end();
     console.log('Saved!')
 });
